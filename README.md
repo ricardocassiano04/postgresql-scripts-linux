@@ -11,5 +11,5 @@ install PostgreSQL 11 as main instalation and add It to the PATH.
 
 The script postgresql11-install-from-source-debian-alonside-default-instalation.sh 
 
-install PostgreSQL 11 alongside a existing instalation (from repository or other methods).
+install PostgreSQL 11 alongside a existing instalation (from repository or other resources).
 
