@@ -19,6 +19,8 @@ Você pode modificá-lo de acordo com as duas necessidades.
 
 '
 
+VERSAO=11.17
+
 
 # Instalação das dependências necessárias.
 
@@ -28,13 +30,13 @@ pkgconf flex gcc make guile-2.2-dev patch automake
 
 # Download e extração do código fonte
 
-wget -c https://ftp.postgresql.org/pub/source/v11.16/postgresql-11.16.tar.gz
+wget -c https://ftp.postgresql.org/pub/source/v"$VERSAO"/postgresql-"$VERSAO".tar.gz
 
-tar -xf postgresql-11.16.tar.gz
+tar -xf postgresql-"$VERSAO".tar.gz
 
 # Configuração das opções de compilação.
 
-cd postgresql-11.16
+cd postgresql-"$VERSAO"
 
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
