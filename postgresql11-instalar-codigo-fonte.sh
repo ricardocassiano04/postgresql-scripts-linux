@@ -26,7 +26,7 @@ VERSAO=11.17
 
 sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-pkgconf flex gcc make guile-2.2-dev patch automake
+pkgconf flex gcc make guile-2.2-dev patch automake  python3-dev
 
 # Download e extração do código fonte
 
