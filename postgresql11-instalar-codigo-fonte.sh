@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Install o PostgreSQL código fonte no Debian Gnu/Linux 11
+# Instalar o PostgreSQL código fonte no Debian Gnu/Linux 11
 #
 # Autor: Ricardo Cassiano
 # E-mail: rc.cassiano04@outlook.com
