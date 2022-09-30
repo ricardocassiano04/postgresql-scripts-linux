@@ -1,12 +1,9 @@
 #!/bin/bash
 #
 # Instalar o PostgreSQL código fonte no Debian Gnu/Linux 11
-# ao lado de uma instalação existente.
-# 
 #
 # Autor: Ricardo Cassiano
-# E-mail: rc.cassiano04@outlook.com
-# Github: https://github.com/ricardocassiano04/
+
 
 echo '
 Script para compilar e instalar o PostgreSQL 11 no Debian Gnu/Linux 11.
@@ -21,22 +18,19 @@ Você pode modificá-lo de acordo com as duas necessidades.
 
 '
 
+sleep 2
+
+
 VERSAO=11.17
-
-
-# Instalação das dependências necessárias.
 
 sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-pkgconf flex gcc make guile-2.2-dev patch automake python3-dev
+pkgconf flex gcc make guile-2.2-dev patch automake  python3-dev
 
-# Download e extração do código fonte
 
 wget -c https://ftp.postgresql.org/pub/source/v"$VERSAO"/postgresql-"$VERSAO".tar.gz
 
 tar -xf postgresql-"$VERSAO".tar.gz
-
-# Configuração das opções de compilação.
 
 cd postgresql-"$VERSAO" || return
 
@@ -49,9 +43,6 @@ CXX=/usr/bin/g++ PYTHON=python3 ./configure \
 --with-libxml \
 --with-libxslt
 
-# Execução do make 
-# compilação e instalação (pode levar vários minutos, dependendo das configurações do computador).
-
 make world
 
 sudo make install-world
@@ -62,15 +53,25 @@ make
 
 sudo make install
 
-
-# Altera o dono da pasta de instalação para o usuário postgres
-
+sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres
 
 sudo chown -R postgres:postgres /usr/local/pgsql
 
+sudo tee -a /etc/profile.d/pgsql.sh>>/dev/null<<EOF
+LD_LIBRARY_PATH=/usr/local/pgsql/11/lib
+export LD_LIBRARY_PATH
 
+PATH=/usr/local/pgsql/11/bin:$PATH
+export PATH
 
-# Criar o serviço systemd
+MANPATH=/usr/local/pgsql/11/share/man:$MANPATH
+export MANPATH
+EOF
+
+sudo chmod +x /etc/profile.d/pgsql.sh
+
+sudo /sbin/ldconfig /usr/local/pgsql/11/lib
+
 
 sudo tee -a /etc/systemd/system/postgresql11.service>>/dev/null<<EOF
 
@@ -91,16 +92,13 @@ TimeoutSec=0
 WantedBy=multi-user.target
 EOF
 
-# Deixar o serviço desabilitado por padrão
 
 sudo systemctl disable postgresql11.service
 
 sudo systemctl daemon-reload
 
 
-echo 'Instalação completada!'
-
-
-
-
-
+echo "Instalação completada. Agora é necessário reiniciar o computador!
+Por padrão, o serviço do PostgreSQL $VERSAO está desabilidato.
+Você pode habilitar executando:
+sudo systemctl enable postgresql11.service"
