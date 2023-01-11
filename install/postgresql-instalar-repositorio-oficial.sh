@@ -1,29 +1,24 @@
 #!/bin/bash
 #
-# Instala o PostgreSQL e o PgAdmin (desktop) no Debian/Ubuntu
-# a partir do repositório oficial.
+# Install PostgreSQL and PgAdmin (desktop) on Debian
+# from upstream repository.
 #
-# Autor: Ricardo Cassiano
+# Author: Ricardo Cassiano
 #
 
 echo "
-Instala o PostgreSQL e o PgAdmin no Debian/Ubuntu
-a partir do repositório oficial.
+ Install PostgreSQL and PgAdmin (desktop) on Debian
+ from upstream repository.
 
-PostgreSQL
-Baseado em https://www.postgresql.org/download/linux/debian/ (para Debian)
-e em https://www.postgresql.org/download/linux/ubuntu/ (para Ubuntu)
+
+https://www.postgresql.org/download/linux/debian/
 
 PgAdmin
 
 https://www.pgadmin.org/download/pgadmin-4-apt/
 
-Se você está usando o Linux Mint, substitua o $(lsb_release -cs) pelo nome 
-da versão do Ubuntu. 
-Para descobrir esse nome, execute cat /etc/os-release no
-terminal e procure pela linha UBUNTU_CODENAME.
-
-Você pode modificá-lo de acordo com as duas necessidades.
+If you are using Linux Mint, replace $(lsb_release -cs) with
+UBUNTU_CODENAME located at /etc/os-release
 
 "
 
@@ -44,10 +39,8 @@ sudo apt-get update
 
 sudo apt-get -y install pgadmin4-desktop postgresql postgresql-doc postgresql-contrib
 
-
 sudo systemctl disable postgresql
-
 
 sudo systemctl stop postgresql
 
-echo "Instalação terminada!"
+echo "Installation finished!!"

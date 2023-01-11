@@ -1,8 +1,5 @@
-# PostgreSQL  - Scripts diversos para Linux
+# PostgreSQL  - Scripts for Debian Gnux/Linux and its derivatives.
 
-## PostgreSQL  - Scripts diversos para Linux (Debian e derivados).
+These scripts are only for tests and study purposes only.
 
-
-Esses scripts são apenas para testes e estudos.
-
-Não recomendado para uso em produção.
+Not recommended for production environment.
