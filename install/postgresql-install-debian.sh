@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# This bash script compiles PostgreSQL from sources on Debian.
+# This bash script compiles PostgreSQL from sources on Debian (11+) / Ubuntu (20.04+).
 #
 # Author: Ricardo Cassiano
 
 
 echo "
-Script to compile PostgreSQL on Debian.
+Script to compile PostgreSQL on Debian (11+) / Ubuntu (20.04+).
 
 This script is adapted from official documentation at 
 
@@ -17,22 +17,24 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 2
 
 
-read -r -p "Type the version you want (eg: 11.18, 15.1)": VERSION
+read -r -p "Type the version you want (eg: 11.19, 15.2)": VERSION
 
 
-echo "Installing required packages"
+# Install required packages
 
 sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-pkgconf flex gcc make guile-2.2-dev patch automake  python3-dev \
-git
+pkgconf flex gcc make guile-2.2-dev patch automake  python3-dev
 
+# Download sources and extract the tar.gz file
 
 wget -c https://ftp.postgresql.org/pub/source/v"$VERSION"/postgresql-"$VERSION".tar.gz
 
 tar -xf postgresql-"$VERSION".tar.gz
 
 cd postgresql-"$VERSION" || return
+
+# Run the configuration and make
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
 --prefix=/usr/local/pgsql/"$VERSION" \
@@ -53,13 +55,20 @@ make
 
 sudo make install
 
+# Create user postgres if not exists 
+
 if [ "$(grep -c '^postgres:' /etc/passwd)" = 0 ]; then
 	sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres
 else
     echo "postgres user already created"	
 fi
 
+# Make postgres user the owner of /usr/local/pgsql folder
+
 sudo chown -R postgres:postgres /usr/local/pgsql
+
+# Verifiy if already exists a postgresql installation. 
+# If not, configure binaries, manual and library path.
 
 command -v psql >/dev/null 2>&1 || \
 { sudo tee -a /etc/profile.d/pgsql.sh>>/dev/null<<EOF
@@ -75,6 +84,8 @@ EOF
 sudo /sbin/ldconfig /usr/local/pgsql/"$VERSION"/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
+
+# Remove postgresql systemd service if it exists and create a new one.
 
 sudo rm  -f /etc/systemd/system/postgresql"$VERSION".service
 
@@ -97,6 +108,7 @@ TimeoutSec=0
 WantedBy=multi-user.target
 EOF
 
+# Disable postgresql systemd service.
 
 sudo systemctl disable postgresql"$VERSION".service
 

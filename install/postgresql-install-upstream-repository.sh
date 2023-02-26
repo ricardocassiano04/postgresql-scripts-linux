@@ -1,13 +1,17 @@
 #!/bin/bash
 #
-# Install PostgreSQL and PgAdmin (desktop) on Debian
+# Install PostgreSQL and PgAdmin (desktop) on Debian / Ubuntu
 # from upstream repository.
+#
+# 
 #
 # Author: Ricardo Cassiano
 #
+#
+#
 
 echo "
- Install PostgreSQL and PgAdmin (desktop) on Debian
+ Install PostgreSQL and PgAdmin (desktop) on Debian / Ubuntu
  from upstream repository.
 
 
@@ -22,9 +26,15 @@ UBUNTU_CODENAME located at /etc/os-release
 
 "
 
-sleep 2
+sleep 1
 
+# Install required packages
 sudo apt-get -y install curl wget
+
+# Create the sourcelist and import the keys
+#
+# TODO:
+# Detect if the OS is a Linux Mint if so, change release name to Ubuntu.
 
 sudo sh -c 'echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
@@ -35,6 +45,7 @@ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-
 curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 
 
+# Update repositories list and installs postgresql
 sudo apt-get update
 
 sudo apt-get -y install pgadmin4-desktop postgresql postgresql-doc postgresql-contrib
