@@ -19,7 +19,7 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 2
 
 
-read -r -p "Type the version you want (eg: 11.19, 15.2)": VERSION
+read -r -p "Type the version you want (eg: 12.15, 15.3)": VERSION
 
 BUILD_FOLDER=$HOME/builds
 
