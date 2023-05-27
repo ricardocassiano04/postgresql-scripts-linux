@@ -11,7 +11,7 @@
 #
 
 echo "
- Install PostgreSQL and PgAdmin (desktop) on Debian / Ubuntu
+ Install PostgreSQL and PgAdmin (desktop) on Debian (11+)/ Ubuntu (20.04+)
  from upstream repository.
 
 
