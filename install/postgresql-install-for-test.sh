@@ -16,7 +16,7 @@ https://www.postgresql.org/docs/current/installation.html
 
 "
 
-sleep 2
+sleep 1
 
 
 read -r -p "Type the version you want (eg: 12.15, 15.3)": VERSION
@@ -76,4 +76,4 @@ fi
 
 sudo chown -R postgres:postgres /opt/pgsql
 
-echo "Compilation finished!!" 
+echo "Instalation finished!!" 
