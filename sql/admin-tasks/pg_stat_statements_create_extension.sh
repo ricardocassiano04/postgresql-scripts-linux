@@ -7,7 +7,8 @@
 # 
 # Must be executed with postgres user on linux with trust authentication method (https://www.postgresql.org/docs/15/auth-trust.html)
 # or authentication configured at .pgpass file (https://www.postgresql.org/docs/current/libpq-pgpass.html)
-#  
+#
+# IMPORTANT: contrib package must be installed!!
 
 databases_to_alter=$(psql -U postgres -d postgres -A -t -c " select datname from pg_database where datname <> 'template0';")
 for bases in ${databases_to_alter}
