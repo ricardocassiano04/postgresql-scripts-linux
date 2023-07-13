@@ -12,8 +12,13 @@ This script is adapted from official documentation at
 https://www.postgresql.org/docs/current/installation.html
 
 '
+# Ask user for desired version
 
 read -r -p "Type the version you want (eg: 12.15, 15.3)": VERSION
+
+# Use only major version number for install location
+
+MAJOR_VERSION=$(cut -c 1-2 <<< $VERSION)
 
 # Install required packages
 
@@ -33,7 +38,7 @@ cd postgresql-"$VERSION" || return
 
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
---prefix=/usr/local/pgsql/"$VERSION" \
+--prefix=/usr/local/pgsql/"$MAJOR_VERSION" \
 --with-pgport=5433 \
 --with-python \
 --with-openssl \
@@ -70,34 +75,34 @@ sudo chown -R postgres:postgres /usr/local/pgsql
 
 command -v psql >/dev/null 2>&1 || \
 { sudo tee -a /etc/profile.d/pgsql.sh>>/dev/null<<EOF
-LD_LIBRARY_PATH=/usr/local/pgsql/"$VERSION"/lib
+LD_LIBRARY_PATH=/usr/local/pgsql/"$MAJOR_VERSION"/lib
 export LD_LIBRARY_PATH
 
-PATH=/usr/local/pgsql/"$VERSION"/bin:$PATH
+PATH=/usr/local/pgsql/"$MAJOR_VERSION"/bin:$PATH
 export PATH
 
-MANPATH=/usr/local/pgsql/"$VERSION"/share/man:$MANPATH
+MANPATH=/usr/local/pgsql/"$MAJOR_VERSION"/share/man:$MANPATH
 export MANPATH
 EOF
-sudo /sbin/ldconfig /usr/local/pgsql/"$VERSION"/lib
+sudo /sbin/ldconfig /usr/local/pgsql/"$MAJOR_VERSION"/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
 
 
 # Remove postgresql systemd service if it exists and create a new one.
 
-sudo rm  -f /etc/systemd/system/postgresql"$VERSION".service
+sudo rm  -f /etc/systemd/system/postgresql"$MAJOR_VERSION".service
 
-sudo tee -a /etc/systemd/system/postgresql"$VERSION".service>>/dev/null<<EOF
+sudo tee -a /etc/systemd/system/postgresql"$MAJOR_VERSION".service>>/dev/null<<EOF
 
 [Unit]
-Description=PostgreSQL "$VERSION" database server
+Description=PostgreSQL "$MAJOR_VERSION" database server
 Documentation=man:postgres(1)
 
 [Service]
 Type=notify
 User=postgres
-ExecStart=/usr/local/pgsql/"$VERSION"/bin/postgres -D /usr/local/pgsql/"$VERSION"/data
+ExecStart=/usr/local/pgsql/"$MAJOR_VERSION"/bin/postgres -D /usr/local/pgsql/"$MAJOR_VERSION"/data
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
@@ -109,18 +114,18 @@ EOF
 
 # Disable postgresql systemd service.
 
-sudo systemctl disable postgresql"$VERSION".service
+sudo systemctl disable postgresql"$MAJOR_VERSION".service
 
 sudo systemctl daemon-reload
 
 
 echo "Compilation finished. 
 
-By default, the postgresql$VERSION service is disabled.
+By default, the postgresql$MAJOR_VERSION service is disabled.
 
 You can enable it by running: 
 
-sudo systemctl enable postgresql$VERSION.service"
+sudo systemctl enable postgresql$MAJOR_VERSION.service"
 
 
 
