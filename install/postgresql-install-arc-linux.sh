@@ -18,7 +18,7 @@ read -r -p "Type the version you want (eg: 12.15, 15.3)": VERSION
 
 # Use only major version number for install location
 
-MAJOR_VERSION=$(cut -c 1-2 <<< $VERSION)
+MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
 
 # Install required packages
 
