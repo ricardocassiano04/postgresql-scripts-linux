@@ -21,11 +21,13 @@ sleep 1
 
 read -r -p "Type the version you want (eg: 12.15, 15.3)": VERSION
 
+MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
+
 BUILD_FOLDER=$HOME/builds
 
-mkdir -p $BUILD_FOLDER
+mkdir -p "${BUILD_FOLDER}"
 
-cd $BUILD_FOLDER/
+cd "${BUILD_FOLDER}"/ || exit
 
 
 
@@ -46,7 +48,7 @@ cd postgresql-"$VERSION" || return
 # Run the configuration and make
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
---prefix=/opt/pgsql/"$VERSION" \
+--prefix=/opt/pgsql/"$MAJOR_VERSION" \
 --with-pgport=5435 \
 --with-python \
 --with-openssl \
@@ -69,7 +71,7 @@ sudo make install
 if [ "$(grep -c '^postgres:' /etc/passwd)" = 0 ]; then
 	sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres
 else
-    echo "postgres user already created"	
+    echo "postgres user already created"
 fi
 
 # Make postgres user the owner of /opt/pgsql folder
