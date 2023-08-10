@@ -27,9 +27,11 @@ MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
 
 sudo mkdir -p "${INSTALL_FOLDER}" 
 
-BUILD_FOLDER="${INSTALL_FOLDER}"/builds
+BUILD_FOLDER="$HOME"/builds
 
-sudo mkdir -p "${BUILD_FOLDER}"
+mkdir -p "${BUILD_FOLDER}"
+
+
 
 cd "${BUILD_FOLDER}"/ || return
 
