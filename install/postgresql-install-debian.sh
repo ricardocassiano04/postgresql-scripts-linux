@@ -6,7 +6,7 @@
 
 
 echo "
-Script to compile PostgreSQL on Debian (11+) / Ubuntu (20.04+).
+Script to compile PostgreSQL on Debian (12+) / Ubuntu (22.04+).
 
 This script is adapted from official documentation at 
 
@@ -17,9 +17,14 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Type the version you want (eg: 12.15, 15.3)": VERSION
+read -r -p "Type the version you want (eg: 14.8, 15.3)": VERSION
+
+read -r -p "Type postgresql install folder (eg: /opt/pgsql)": INSTALL_FOLDER
+
 
 # Use only major version number for install location
+
+sudo mkdir -p "${INSTALL_FOLDER}" 
 
 MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
 
@@ -28,7 +33,7 @@ MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
 
 sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-pkgconf flex gcc make guile-2.2-dev patch automake  python3-dev
+pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
 
 # Download sources and extract the tar.gz file
 
@@ -41,7 +46,7 @@ cd postgresql-"$VERSION" || return
 # Run the configuration and make
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
---prefix=/usr/local/pgsql/"$MAJOR_VERSION" \
+--prefix="${INSTALL_FOLDER}"/"${MAJOR_VERSION}" \
 --with-pgport=5433 \
 --with-python \
 --with-openssl \
@@ -67,33 +72,33 @@ else
     echo "postgres user already created"	
 fi
 
-# Make postgres user the owner of /usr/local/pgsql folder
+# Make postgres user the owner of "${INSTALL_FOLDER}" folder
 
-sudo chown -R postgres:postgres /usr/local/pgsql
+sudo chown -R postgres:postgres "${INSTALL_FOLDER}"
 
 # Verifiy if already exists a postgresql installation. 
 # If not, configure binaries, manual and library path.
 
 command -v psql >/dev/null 2>&1 || \
 { sudo tee -a /etc/profile.d/pgsql.sh>>/dev/null<<EOF
-LD_LIBRARY_PATH=/usr/local/pgsql/"$MAJOR_VERSION"/lib
+LD_LIBRARY_PATH="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/lib
 export LD_LIBRARY_PATH
 
-PATH=/usr/local/pgsql/"$MAJOR_VERSION"/bin:$PATH
+PATH="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/bin:$PATH
 export PATH
 
-MANPATH=/usr/local/pgsql/"$MAJOR_VERSION"/share/man:$MANPATH
+MANPATH="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/share/man:$MANPATH
 export MANPATH
 EOF
-sudo /sbin/ldconfig /usr/local/pgsql/"$MAJOR_VERSION"/lib
+sudo /sbin/ldconfig "${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
 
 # Remove postgresql systemd service if it exists and create a new one.
 
-sudo rm  -f /etc/systemd/system/postgresql"$MAJOR_VERSION".service
+sudo rm  -f /etc/systemd/system/postgresql"${MAJOR_VERSION}".service
 
-sudo tee -a /etc/systemd/system/postgresql"$MAJOR_VERSION".service>>/dev/null<<EOF
+sudo tee -a /etc/systemd/system/postgresql"${MAJOR_VERSION}".service>>/dev/null<<EOF
 
 [Unit]
 Description=PostgreSQL "$VERSION" database server
@@ -102,7 +107,7 @@ Documentation=man:postgres(1)
 [Service]
 Type=notify
 User=postgres
-ExecStart=/usr/local/pgsql/"$MAJOR_VERSION"/bin/postgres -D /usr/local/pgsql/"$MAJOR_VERSION"/data
+ExecStart="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/bin/postgres -D "${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/data
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
@@ -114,7 +119,7 @@ EOF
 
 # Disable postgresql systemd service.
 
-sudo systemctl disable postgresql"$MAJOR_VERSION".service
+sudo systemctl disable postgresql"${MAJOR_VERSION}".service
 
 sudo systemctl daemon-reload
 
