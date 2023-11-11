@@ -17,14 +17,14 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Type the version you want (eg: 14.8, 15.3)": VERSION
+read -r -p "Type the version you want (eg: 15.5, 16.1)": VERSION
 
 read -r -p "Type postgresql install folder (eg: /opt/pgsql)": INSTALL_FOLDER
 
 
 # Use only major version number for install location
 
-sudo mkdir -p "${INSTALL_FOLDER}" 
+sudo mkdir -p "${INSTALL_FOLDER}"
 
 MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
 
@@ -103,6 +103,8 @@ sudo tee -a /etc/systemd/system/postgresql"${MAJOR_VERSION}".service>>/dev/null<
 [Unit]
 Description=PostgreSQL "$VERSION" database server
 Documentation=man:postgres(1)
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=notify
@@ -111,7 +113,7 @@ ExecStart="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/bin/postgres -D "${INSTALL_FOLD
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
-TimeoutSec=0
+TimeoutSec=infinity
 
 [Install]
 WantedBy=multi-user.target
@@ -125,6 +127,8 @@ sudo systemctl daemon-reload
 
 
 echo "Compilation finished. 
+
+Note: Remenber to run initdb before start the systemd service!
 
 By default, the postgresql$MAJOR_VERSION service is disabled.
 
