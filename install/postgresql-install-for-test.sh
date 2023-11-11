@@ -19,7 +19,7 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Type the version you want (eg: 14.8, 15.3)": VERSION
+read -r -p "Type the version you want (eg: 15.5, 16.1)": VERSION
 
 read -r -p "Type postgresql install folder (eg: /opt/pgsql)": INSTALL_FOLDER
 
