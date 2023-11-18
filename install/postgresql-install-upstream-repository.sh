@@ -43,9 +43,15 @@ fi
 
 # Configure repositories
 
-sudo sh -c 'echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt ${distro}-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-sudo sh -c 'echo "deb [arch=amd64] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/${distro} pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list'
+sudo tee -a /etc/apt/sources.list.d/pgsql.list>>/dev/null<<EOF
+
+deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt "${distro}"-pgdg main
+
+deb [arch=amd64] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/"${distro}" pgadmin4 main
+
+EOF
+
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
