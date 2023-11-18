@@ -11,7 +11,7 @@
 #
 
 echo "
- Install PostgreSQL and PgAdmin (desktop) on Debian (12+) / Ubuntu (22.04+)
+ Install PostgreSQL and PgAdmin (desktop) on Debian (12+) / Ubuntu (22.04+) / Linux Mint 21+
  from upstream repository.
 
 
@@ -29,16 +29,23 @@ UBUNTU_CODENAME located at /etc/os-release
 sleep 1
 
 # Install required packages
-sudo apt-get -y install curl wget
 
-# Create the sourcelist and import the keys
-#
-# TODO:
-# Detect if the OS is a Linux Mint if so, change release name to Ubuntu.
+sudo apt-get -y install curl wget lsb-release
 
-sudo sh -c 'echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-sudo sh -c 'echo "deb [arch=amd64] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list'
+# Get distro name (check if it's Linux Mint to put Ubuntu codename)
+
+if [ "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" ]; then
+	distro=$(grep -Po '(?<=UBUNTU_CODENAME=)\w+' /etc/os-release)	
+else
+    distro=$(lsb_release -cs)   
+fi
+
+# Configure repositories
+
+sudo sh -c 'echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt ${distro}-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+sudo sh -c 'echo "deb [arch=amd64] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/${distro} pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list'
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
@@ -48,7 +55,7 @@ curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 # Update repositories list and installs postgresql
 sudo apt-get update
 
-sudo apt-get -y install pgadmin4-desktop postgresql postgresql-doc postgresql-contrib
+sudo apt-get -y install pgadmin4-desktop postgresql postgresql-doc
 
 sudo systemctl disable postgresql
 
