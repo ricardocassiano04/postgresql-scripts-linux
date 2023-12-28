@@ -28,6 +28,8 @@ UBUNTU_CODENAME located at /etc/os-release
 
 sleep 1
 
+read -r -p "Type the major version you want (eg: 15, 16)": VERSION
+
 # Install required packages
 
 sudo apt-get -y install curl wget lsb-release
@@ -61,7 +63,7 @@ curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 # Update repositories list and installs postgresql
 sudo apt-get update
 
-sudo apt-get -y install pgadmin4-desktop postgresql postgresql-doc
+sudo apt-get -y install pgadmin4-desktop postgresql-"${VERSION}" postgresql-client-"${VERSION}"
 
 sudo systemctl disable postgresql
 
