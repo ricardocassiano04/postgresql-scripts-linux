@@ -73,7 +73,7 @@ make
 
 sudo make install
 
-# Cria o usuário postgres, caso não existas
+# Cria o usuário postgres, caso não exista
 
 if [ "$(grep -c '^postgres:' /etc/passwd)" = 0 ]; then
 	sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres

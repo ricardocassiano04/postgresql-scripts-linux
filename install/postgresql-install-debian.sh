@@ -1,14 +1,18 @@
 #!/bin/bash
 #
-# This bash script compiles PostgreSQL from sources on Debian (11+) / Ubuntu (20.04+).
+# Script bash para compilar e instalar o PostgreSQL 
+# no Linux Debian (12+) / Ubuntu (22.04+).
 #
-# Author: Ricardo Cassiano
+#
+# Autor: Ricardo Cassiano
 
 
 echo "
-Script to compile PostgreSQL on Debian (12+) / Ubuntu (22.04+).
+Script bash para compilar e instalar o PostgreSQL 
 
-This script is adapted from official documentation at 
+no Linux Debian (12+) / Ubuntu (22.04+).
+
+Adaptado da documentação oficial:
 
 https://www.postgresql.org/docs/current/installation.html
 
@@ -17,36 +21,36 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Type the version you want (eg: 15.5, 16.1)": VERSION
+read -r -p "Type the VERSAO you want (eg: 15.5, 16.1)": VERSAO
 
-read -r -p "Type postgresql install folder (eg: /opt/pgsql)": INSTALL_FOLDER
-
-
-# Use only major version number for install location
-
-sudo mkdir -p "${INSTALL_FOLDER}"
-
-MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
+read -r -p "Type postgresql install folder (eg: /opt/pgsql)": PASTA_INSTALACAO
 
 
-# Install required packages
+# Usar apenas o número da versão principal na pasta de instalação
+
+sudo mkdir -p "${PASTA_INSTALACAO}"
+
+VERSAO_PRINCIPAL=$(cut -c 1-2 <<< "$VERSAO")
+
+
+# Instala os pacotes necessários para a compilação
 
 sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
 
-# Download sources and extract the tar.gz file
+# Download do código fonte
 
-wget -c https://ftp.postgresql.org/pub/source/v"$VERSION"/postgresql-"$VERSION".tar.gz
+wget -c https://ftp.postgresql.org/pub/source/v"$VERSAO"/postgresql-"$VERSAO".tar.gz
 
-tar -xf postgresql-"$VERSION".tar.gz
+tar -xf postgresql-"$VERSAO".tar.gz
 
-cd postgresql-"$VERSION" || return
+cd postgresql-"$VERSAO" || return
 
-# Run the configuration and make
+# Executa a compilação
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
---prefix="${INSTALL_FOLDER}"/"${MAJOR_VERSION}" \
+--prefix="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}" \
 --with-pgport=5433 \
 --with-python \
 --with-openssl \
@@ -64,7 +68,7 @@ make
 
 sudo make install
 
-# Create user postgres if not exists 
+# Cria o usuário postgres, caso não exista
 
 if [ "$(grep -c '^postgres:' /etc/passwd)" = 0 ]; then
 	sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres
@@ -72,36 +76,37 @@ else
     echo "postgres user already created"	
 fi
 
-# Make postgres user the owner of "${INSTALL_FOLDER}" folder
+# Ajusta permissão da pasta de instalação
 
-sudo chown -R postgres:postgres "${INSTALL_FOLDER}"
+sudo chown -R postgres:postgres "${PASTA_INSTALACAO}"
 
-# Verifiy if already exists a postgresql installation. 
-# If not, configure binaries, manual and library path.
+# Verifica se já existe uma instalação do postgresql. 
+# Caso tenha, configura essa instalação com a padrão do sistema
+# ajustando o PATH dos binários e bibliotecas.
 
 command -v psql >/dev/null 2>&1 || \
 { sudo tee -a /etc/profile.d/pgsql.sh>>/dev/null<<EOF
-LD_LIBRARY_PATH="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/lib
+LD_LIBRARY_PATH="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/lib
 export LD_LIBRARY_PATH
 
-PATH="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/bin:$PATH
+PATH="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/bin:$PATH
 export PATH
 
-MANPATH="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/share/man:$MANPATH
+MANPATH="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/share/man:$MANPATH
 export MANPATH
 EOF
-sudo /sbin/ldconfig "${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/lib
+sudo /sbin/ldconfig "${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
 
-# Remove postgresql systemd service if it exists and create a new one.
+# Cria o serviço do postgresql.
 
-sudo rm  -f /etc/systemd/system/postgresql"${MAJOR_VERSION}".service
+sudo rm  -f /etc/systemd/system/postgresql"${VERSAO_PRINCIPAL}".service
 
-sudo tee -a /etc/systemd/system/postgresql"${MAJOR_VERSION}".service>>/dev/null<<EOF
+sudo tee -a /etc/systemd/system/postgresql"${VERSAO_PRINCIPAL}".service>>/dev/null<<EOF
 
 [Unit]
-Description=PostgreSQL "$VERSION" database server
+Description=PostgreSQL "$VERSAO" database server
 Documentation=man:postgres(1)
 After=network-online.target
 Wants=network-online.target
@@ -109,7 +114,7 @@ Wants=network-online.target
 [Service]
 Type=notify
 User=postgres
-ExecStart="${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/bin/postgres -D "${INSTALL_FOLDER}"/"${MAJOR_VERSION}"/data
+ExecStart="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/bin/postgres -D "${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/data
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
@@ -119,19 +124,19 @@ TimeoutSec=infinity
 WantedBy=multi-user.target
 EOF
 
-# Disable postgresql systemd service.
+# Desabilita por padrão o serviço do postgresql.
 
-sudo systemctl disable postgresql"${MAJOR_VERSION}".service
+sudo systemctl disable postgresql"${VERSAO_PRINCIPAL}".service
 
 sudo systemctl daemon-reload
 
 
-echo "Compilation finished. 
+echo "Instalação finalizada. 
 
-Note: Remenber to run initdb before start the systemd service!
+Importante: Executar o initdb antes de iniciar o postgresql!!
 
-By default, the postgresql$MAJOR_VERSION service is disabled.
+Por padrão, o serviço postgresql$VERSAO_PRINCIPAL está desabilitado na inicialização do sistema.
 
-You can enable it by running: 
+Você pode habilitá-lo executando: 
 
-sudo systemctl enable postgresql$MAJOR_VERSION.service"
+sudo systemctl enable postgresql$VERSAO_PRINCIPAL.service"
