@@ -1,6 +1,6 @@
 # Scripts diversos -  PostgreSQL
 
-## Para ambiente Linux.
+## Para Debian Gnu/Linux e derivados.
 
 
 * [Instalar o PostgreSQL](https://github.com/ricardocassiano04/postgresql-scripts-linux/tree/main/instal)
