@@ -1,8 +1,7 @@
-# Scripts for PostgreSQL
+# Scripts diversos -  PostgreSQL
 
-These scripts are only for tests and study.
+## Para ambiente Linux.
 
-Not recommended for production environment.
 
-* [Scripts to install PostgreSQL](https://github.com/ricardocassiano04/postgresql-scripts-linux/tree/main/instal)
-* [Queries for many purposes](https://github.com/ricardocassiano04/postgresql-scripts-linux/tree/main/sql)
+* [Instalar o PostgreSQL](https://github.com/ricardocassiano04/postgresql-scripts-linux/tree/main/instal)
+* [Arquivos SQL](https://github.com/ricardocassiano04/postgresql-scripts-linux/tree/main/sql)
