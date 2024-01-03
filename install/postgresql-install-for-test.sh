@@ -1,16 +1,19 @@
 #!/bin/bash
 #
-# This bash script compiles PostgreSQL from sources on Debian (12+) / Ubuntu (22.04+).
+# Script bash para compilar e instalar o PostgreSQL 
+# no Linux Debian (12+) / Ubuntu (22.04+).
 #
-# Only for test
+# Apenas para teste.
 #
-# Author: Ricardo Cassiano
+# Autor: Ricardo Cassiano
 
 
 echo "
-Script to compile PostgreSQL on Debian (12+) / Ubuntu (22.04+).
+Script bash para compilar e instalar o PostgreSQL 
 
-This script is adapted from official documentation at 
+no Linux Debian (12+) / Ubuntu (22.04+).
+
+Adaptado da documentação oficial:
 
 https://www.postgresql.org/docs/current/installation.html
 
@@ -19,40 +22,40 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Type the version you want (eg: 15.5, 16.1)": VERSION
+read -r -p "Digite a versão que você quer instalar (ex: 15.5, 16.1)": VERSAO
 
-read -r -p "Type postgresql install folder (eg: /opt/pgsql)": INSTALL_FOLDER
+read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
-MAJOR_VERSION=$(cut -c 1-2 <<< "$VERSION")
+VERSAO_PRINCIPAL=$(cut -c 1-2 <<< "$VERSAO")
 
-sudo mkdir -p "${INSTALL_FOLDER}" 
+sudo mkdir -p "${PASTA_INSTALACAO}" 
 
-BUILD_FOLDER="$HOME"/builds
+PASTA_COMPILACAO="$HOME"/compilacao
 
-mkdir -p "${BUILD_FOLDER}"
+mkdir -p "${PASTA_COMPILACAO}"
 
 
 
-cd "${BUILD_FOLDER}"/ || return
+cd "${PASTA_COMPILACAO}"/ || return
 
-# Install required packages
+# Instala os pacotes necessários para a compilação
 
 sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
 
-# Download sources and extract the tar.gz file
+# Download do código fonte
 
-wget -c https://ftp.postgresql.org/pub/source/v"$VERSION"/postgresql-"$VERSION".tar.gz
+wget -c https://ftp.postgresql.org/pub/source/v"$VERSAO"/postgresql-"$VERSAO".tar.gz
 
-tar -xf postgresql-"$VERSION".tar.gz
+tar -xf postgresql-"$VERSAO".tar.gz
 
-cd postgresql-"$VERSION" || return
+cd postgresql-"$VERSAO" || return
 
-# Run the configuration and make
+# Executa a compilação
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
---prefix="${INSTALL_FOLDER}"/"$MAJOR_VERSION" \
+--prefix="${PASTA_INSTALACAO}"/"$VERSAO_PRINCIPAL" \
 --with-pgport=5435 \
 --with-python \
 --with-openssl \
@@ -70,16 +73,16 @@ make
 
 sudo make install
 
-# Create user postgres if not exists 
+# Cria o usuário postgres, caso não existas
 
 if [ "$(grep -c '^postgres:' /etc/passwd)" = 0 ]; then
 	sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres
 else
-    echo "postgres user already created"
+    echo "Usuário postgres já existe"
 fi
 
-# Make postgres user the owner of "${INSTALL_FOLDER}" folder
+# Ajusta permissão da pasta de instalação
 
-sudo chown -R postgres:postgres "${INSTALL_FOLDER}"
+sudo chown -R postgres:postgres "${PASTA_INSTALACAO}"
 
-echo "Instalation finished!!" 
+echo "Instlação concluída!!" 
