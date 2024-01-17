@@ -21,7 +21,7 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Type the VERSAO you want (eg: 15.5, 16.1)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15.5, 16.1)": VERSAO
 
 read -r -p "Type postgresql install folder (eg: /opt/pgsql)": PASTA_INSTALACAO
 
@@ -99,7 +99,9 @@ sudo /sbin/ldconfig "${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
 
-# Cria o serviço do postgresql.
+# Cria / recria o serviço do postgresql.
+
+sudo systemctl stop postgresql"${VERSAO_PRINCIPAL}".service
 
 sudo rm  -f /etc/systemd/system/postgresql"${VERSAO_PRINCIPAL}".service
 
@@ -139,4 +141,5 @@ Por padrão, o serviço postgresql$VERSAO_PRINCIPAL está desabilitado na inicia
 
 Você pode habilitá-lo executando: 
 
-sudo systemctl enable postgresql$VERSAO_PRINCIPAL.service"
+sudo systemctl enable postgresql$VERSAO_PRINCIPAL.service
+"
