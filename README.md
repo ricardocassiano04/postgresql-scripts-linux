@@ -2,7 +2,9 @@
 
 ## Para Debian Gnu/Linux e derivados.
 
-### Observação: alteração de todos os scripts para português brasileiro em andamento.
+#### Existem várias formas de instalar o postgresql: Compilação do código fonte, pacotes com binários, imagens docker, etc.
+
+#### Coloquei algumas aqui apenas para estudos/testes.
 
 
 * [Instalar o PostgreSQL](https://github.com/ricardocassiano04/postgresql-scripts-linux/tree/main/instal)
