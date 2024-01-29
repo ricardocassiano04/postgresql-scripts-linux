@@ -23,7 +23,7 @@ sleep 1
 
 read -r -p "Digite a versão que você quer instalar (ex: 15.5, 16.1)": VERSAO
 
-read -r -p "Type postgresql install folder (eg: /opt/pgsql)": PASTA_INSTALACAO
+read -r -p "Digite o caminho da instalação (exemplo: /opt/pgsql)": PASTA_INSTALACAO
 
 
 # Usar apenas o número da versão principal na pasta de instalação

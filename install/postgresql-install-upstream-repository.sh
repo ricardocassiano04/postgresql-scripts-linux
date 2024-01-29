@@ -7,7 +7,7 @@
 #
 #
 # TODO
-# Validar versão digita pelo usuário
+# Validar versão digitada pelo usuário
 
 
 echo "
