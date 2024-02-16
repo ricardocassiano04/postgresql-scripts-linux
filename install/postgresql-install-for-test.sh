@@ -21,8 +21,11 @@ https://www.postgresql.org/docs/current/installation.html
 
 sleep 1
 
+# TODO
+# Usar wget ou curl para pegar as versões disponíveis no ftp do postgresql
 
-read -r -p "Digite a versão que você quer instalar (ex: 15.5, 16.1)": VERSAO
+
+read -r -p "Digite a versão que você quer instalar (ex: 15.6, 16.2)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
