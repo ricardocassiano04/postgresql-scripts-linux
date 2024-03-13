@@ -86,16 +86,16 @@ sudo chown -R postgres:postgres "${PASTA_INSTALACAO}"
 
 command -v psql >/dev/null 2>&1 || \
 { sudo tee -a /etc/profile.d/pgsql.sh>>/dev/null<<EOF
-LD_LIBRARY_PATH="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/lib
+LD_LIBRARY_PATH=${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/lib
 export LD_LIBRARY_PATH
 
-PATH="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/bin:$PATH
+PATH=${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/bin:$PATH
 export PATH
 
-MANPATH="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/share/man:$MANPATH
+MANPATH=${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/share/man:$MANPATH
 export MANPATH
 EOF
-sudo /sbin/ldconfig "${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/lib
+sudo /sbin/ldconfig ${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
 
@@ -108,7 +108,7 @@ sudo rm  -f /etc/systemd/system/postgresql"${VERSAO_PRINCIPAL}".service
 sudo tee -a /etc/systemd/system/postgresql"${VERSAO_PRINCIPAL}".service>>/dev/null<<EOF
 
 [Unit]
-Description=PostgreSQL "$VERSAO_PRINCIPAL" database server
+Description=PostgreSQL ${VERSAO_PRINCIPAL} database server
 Documentation=man:postgres(1)
 After=network-online.target
 Wants=network-online.target
@@ -116,7 +116,7 @@ Wants=network-online.target
 [Service]
 Type=notify
 User=postgres
-ExecStart="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/bin/postgres -D "${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/data
+ExecStart=${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/bin/postgres -D ${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/data
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
