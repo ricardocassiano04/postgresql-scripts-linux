@@ -80,6 +80,10 @@ fi
 
 sudo chown -R postgres:postgres "${PASTA_INSTALACAO}"
 
+# Executa o initdb
+
+sudo su - postgres -c "${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/bin/initdb -D ${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/data"
+
 # Verifica se já existe uma instalação do postgresql. 
 # Caso tenha, configura essa instalação com a padrão do sistema
 # ajustando o PATH dos binários e bibliotecas.
