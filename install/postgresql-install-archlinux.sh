@@ -21,9 +21,9 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 15.6, 16.2)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15.7, 16.3)": VERSAO
 
-read -r -p "Digite o caminho da instalação (exemplo: /opt/pgsql)": PASTA_INSTALACAO
+read -r -p "Digite o caminho da instalação (exemplo: /usr/local/pgsql)": PASTA_INSTALACAO
 
 
 # Usar apenas o número da versão principal na pasta de instalação
@@ -73,7 +73,7 @@ sudo make install
 # Cria o usuário postgres, caso não exista
 
 if [ "$(grep -c '^postgres:' /etc/passwd)" = 0 ]; then
-	sudo useradd --system --shell /usr/bin/bash  --no-create-home postgres
+	sudo useradd --system --shell /usr/bin/bash  --home-dir  "${PASTA_INSTALACAO}" postgres
 else
     echo "postgres user already created"	
 fi
