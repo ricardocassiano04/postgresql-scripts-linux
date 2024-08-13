@@ -88,4 +88,4 @@ fi
 
 sudo chown -R postgres:postgres "${PASTA_INSTALACAO}"
 
-echo "Instlação concluída!!" 
+echo "Instalação concluída!!"
