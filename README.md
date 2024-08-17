@@ -1,8 +1,8 @@
 # Scripts diversos -  PostgreSQL
 
-## Para Debian Gnu/Linux e derivados.
+## Para Debian Gnu/Linux e OpenSUSE Linux.
 
-#### Existem várias formas de instalar o postgresql: Compilação do código fonte, pacotes com binários, imagens docker, etc.
+#### Existem várias formas de instalar o postgresql: Compilação do código fonte, pacotes com binários, docker, etc.
 
 #### Coloquei algumas aqui apenas para estudos/testes.
 
