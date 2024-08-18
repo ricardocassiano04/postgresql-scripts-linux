@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script bash para compilar e instalar o PostgreSQL 
-# no Linux Debian (12+) / Ubuntu (22.04+).
+# no Linux Debian (12+) e OpenSuse Tumbleweed.
 #
 # Apenas para teste.
 #
@@ -11,7 +11,7 @@
 echo "
 Script bash para compilar e instalar o PostgreSQL 
 
-no Linux Debian (12+) / Ubuntu (22.04+).
+no Linux Debian (12+) e OpenSuse Tumbleweed.
 
 Adaptado da documentação oficial:
 
@@ -43,9 +43,21 @@ cd "${PASTA_COMPILACAO}"/ || return
 
 # Instala os pacotes necessários para a compilação
 
-sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
-lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
+
+if [ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]; then
+    sudo zypper -n install  bison flex llvm-devel clang-devel zlib-devel \
+    libopenssl-devel systemd-devel readline-devel libxslt-devel libxml2-devel \
+    m4 make autoconf pkgconf gcc guile-devel patch automake  python311-devel 
+elif [ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" ]; then
+	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
+    lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
+    pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
+else
+    echo "Script feito apenas para Debian ou OpenSuse Tumbleweed"
+    echo "Você pode copiá-lo e adaptá-lo para sua distribuição"   
+fi
+
+
 
 # Download do código fonte
 
@@ -59,7 +71,7 @@ cd postgresql-"$VERSAO" || return
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
 --prefix="${PASTA_INSTALACAO}"/"$VERSAO_PRINCIPAL" \
---with-pgport=5435 \
+--with-pgport=5454 \
 --with-python \
 --with-openssl \
 --with-systemd \
