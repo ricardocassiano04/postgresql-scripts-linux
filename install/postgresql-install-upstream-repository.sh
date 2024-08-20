@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PostgreSQL e PgAdmin (desktop) no Debian / Ubuntu.
+# Configura o repositório e instala o PostgreSQL e PgAdmin (desktop) no Debian.
 # 
 #
 # Autor: Ricardo Cassiano
@@ -12,7 +12,7 @@
 
 echo "
  
- Configura o repositório e instala o PostgreSQL e PgAdmin (desktop) no Debian 12+ / Ubuntu 22.04+ / Linux Mint 21+.
+ Configura o repositório e instala o PostgreSQL e PgAdmin (desktop) no Debian 12+.
 
 
 https://www.postgresql.org/download/linux/debian/
@@ -32,12 +32,12 @@ read -r -p "Digite a versão que você quer instalar (ex: 15, 16)": VERSAO
 sudo apt-get -y install curl wget lsb-release
 
 
-# Verificar se a distruição é Linux Mint para poder usar o codinome do Ubuntu
+# Verificar se a distruição é Linux Mint para poder usar o codinome do Debian
 
 if [ "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" ]; then
-	distro=$(grep -Po '(?<=UBUNTU_CODENAME=)\w+' /etc/os-release)	
+	distro=$(grep -Po '(?<=DEBIAN_CODENAME=)\w+' /etc/os-release)	
 else
-    distro=$(lsb_release -cs)   
+    distro=$(grep -Po '(?<=VERSION_CODENAME=)\w+' /etc/os-release)
 fi
 
 # Adicionar repositórios
