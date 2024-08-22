@@ -29,7 +29,8 @@ read -r -p "Digite a versão que você quer instalar (ex: 15, 16)": VERSAO
 
 #  Instalar os pacotes necessários para configurar os repositótios
 
-sudo apt-get -y install curl wget lsb-release
+sudo apt-get -y install curl wget lsb-release ca-certificates
+
 
 
 # Verificar se a distruição é Linux Mint para poder usar o codinome do Debian
@@ -40,21 +41,25 @@ else
     distro=$(grep -Po '(?<=VERSION_CODENAME=)\w+' /etc/os-release)
 fi
 
-# Adicionar repositórios
 
+# Importa a chave do repositório 
+
+sudo install -d /usr/share/postgresql-common/pgdg
+
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+
+
+# Adicionar repositórios
 
 sudo tee -a /etc/apt/sources.list.d/pgsql.list>>/dev/null<<EOF
 
-deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt "${distro}"-pgdg main
+deb [arch=amd64 signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] http://apt.postgresql.org/pub/repos/apt "${distro}"-pgdg main
 
-deb [arch=amd64] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/"${distro}" pgadmin4 main
+deb [arch=amd64 signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/"${distro}" pgadmin4 main
 
 EOF
-
-
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-
-curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 
 
 # Atualiza repositórios e instala os pacotes
