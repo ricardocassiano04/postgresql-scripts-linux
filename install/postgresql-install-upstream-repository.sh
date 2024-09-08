@@ -66,7 +66,12 @@ EOF
 
 sudo apt-get update
 
-sudo apt-get -y install pgadmin4-desktop postgresql-"${VERSAO}" postgresql-client-"${VERSAO}"
+sudo apt-get -y install pgadmin4-desktop postgresql-"${VERSAO}" postgresql-client-"${VERSAO} \
+postgresql-doc-"${VERSAO} postgresql-plpython3-"${VERSAO}" \
+postgresql-server-dev-"${VERSAO}" pg-activity
+
+
+# Desabilitabdo e parando o serviço do postgresql
 
 sudo systemctl disable postgresql
 
