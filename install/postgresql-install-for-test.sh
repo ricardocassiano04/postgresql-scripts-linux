@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script bash para compilar e instalar o PostgreSQL 
-# no Linux Debian (12+).
+# no Linux Debian (12+) ou Arch Linux / Manjaro.
 #
 # Apenas para teste.
 #
@@ -11,7 +11,7 @@
 echo "
 Script bash para compilar e instalar o PostgreSQL 
 
-no Linux Debian (12+) e OpenSuse Tumbleweed.
+no Linux Debian (12+) ou Arch Linux / Manjaro.
 
 Adaptado da documentação oficial:
 
@@ -25,7 +25,7 @@ sleep 1
 # Usar wget ou curl para pegar as versões disponíveis no ftp do postgresql
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 15.7, 16.3, 17beta1)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15.8, 16.4, 17.0)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
@@ -41,13 +41,22 @@ mkdir -p "${PASTA_COMPILACAO}"
 
 cd "${PASTA_COMPILACAO}"/ || return
 
-# Instala os pacotes necessários para a compilação
 
-sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
-lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
+# Instalar os pacotes necessários para a compilação
 
-
+if [ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" ]; then
+	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
+	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
+	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev	
+elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=arch" || "$(grep -E '^ID=' /etc/os-release)" = "ID=manjaro" ]]; then
+    sudo pacman --noconfirm --needed -S bison \
+	flex llvm clang zlib openssl readline libxslt \
+	libxml2 m4 make autoconf pkgconf guile gcc patch \
+	python automake wget
+else
+	echo "Esse script é para Debian ou Arch Linux e derivados!!"
+	exit
+fi
 
 
 # Download do código fonte
