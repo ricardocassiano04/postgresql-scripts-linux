@@ -25,7 +25,7 @@ https://www.pgadmin.org/download/pgadmin-4-apt/
 
 sleep 1
 
-read -r -p "Digite a versão que você quer instalar (ex: 15, 16)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15, 16, 17)": VERSAO
 
 #  Instalar os pacotes necessários para configurar os repositótios
 
