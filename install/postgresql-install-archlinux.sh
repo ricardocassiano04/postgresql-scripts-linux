@@ -21,7 +21,7 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 15.7, 16.3)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15.8, 16.4, 17,0)": VERSAO
 
 read -r -p "Digite o caminho da instalação (exemplo: /usr/local/pgsql)": PASTA_INSTALACAO
 
@@ -53,7 +53,7 @@ cd postgresql-"$VERSAO" || return
 
 CXX=/usr/bin/g++ PYTHON=python3 ./configure \
 --prefix="${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}" \
---with-pgport=5432 \
+--with-pgport=5433 \
 --with-python \
 --with-openssl \
 --with-systemd \
@@ -102,7 +102,7 @@ export PATH
 MANPATH=${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/share/man:$MANPATH
 export MANPATH
 EOF
-sudo /sbin/ldconfig ${PASTA_INSTALACAO}/${VERSAO_PRINCIPAL}/lib
+sudo /sbin/ldconfig "${PASTA_INSTALACAO}"/"${VERSAO_PRINCIPAL}"/lib
 sudo chmod +x /etc/profile.d/pgsql.sh
 exit 1; }
 
