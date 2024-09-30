@@ -78,9 +78,9 @@ CXX=/usr/bin/g++ PYTHON=python3 ./configure \
 --with-libxml \
 --with-libxslt
 
-make world
+make world-bin
 
-sudo make install-world
+sudo make install-world-bin
 
 cd src/interfaces/libpq || return
 
