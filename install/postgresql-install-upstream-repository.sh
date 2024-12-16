@@ -66,8 +66,10 @@ EOF
 
 sudo apt-get update
 
-sudo apt-get -y install pgadmin4-desktop postgresql-"${VERSAO}" postgresql-client-"${VERSAO} \
-postgresql-doc-"${VERSAO} postgresql-plpython3-"${VERSAO}" \
+sudo apt-get install postgresql-client-"${VERSAO}"
+
+sudo apt-get -y install pgadmin4-desktop postgresql-"${VERSAO}" \
+postgresql-doc-"${VERSAO}" postgresql-plpython3-"${VERSAO}" \
 postgresql-server-dev-"${VERSAO}" pg-activity
 
 
