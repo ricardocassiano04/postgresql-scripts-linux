@@ -1,17 +1,18 @@
 #!/bin/bash
 #
-# Script bash para compilar e instalar o PostgreSQL 
-# no Linux Debian (12+) ou Arch Linux / Manjaro.
+# Bash script para compilar o PostgreSQL 
+# no Debian Linux (12+) ou Arch Linux / Manjaro.
 #
-# Apenas para teste.
+# Não usar em produção.
 #
 # Autor: Ricardo Cassiano
 
 
 echo "
-Script bash para compilar e instalar o PostgreSQL 
+Bash script para compilar o PostgreSQL 
+no Debian Linux (12+) ou Arch Linux / Manjaro.
 
-no Linux Debian (12+) ou Arch Linux / Manjaro.
+Não usar em produção!!!!
 
 Adaptado da documentação oficial:
 
@@ -21,11 +22,9 @@ https://www.postgresql.org/docs/current/installation.html
 
 sleep 1
 
-# TODO
-# Usar wget ou curl para pegar as versões disponíveis no ftp do postgresql
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 15.8, 16.4, 17.0)": VERSAO
+read -r -p "Digite a versão que quer instalar (ex: 15.10, 16.6, 17.2)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
