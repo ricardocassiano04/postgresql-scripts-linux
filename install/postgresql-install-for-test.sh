@@ -57,7 +57,7 @@ elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; t
 	flex llvm clang zlib openssl readline libxslt \
 	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
 	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
-	python311-devel automake wget systemd-devel
+	python311-devel automake wget systemd-devel libicu-devel
 else
 	echo "Esse script é para Debian ou Arch Linux e derivados!!"
 	exit
