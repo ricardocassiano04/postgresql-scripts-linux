@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Bash script para compilar o PostgreSQL 
-# no Debian Linux (12+) ou Arch Linux / Manjaro.
+# no Debian Linux (12+), OpenSUSE ou Arch Linux / Manjaro.
 #
 # Não usar em produção.
 #
@@ -10,7 +10,7 @@
 
 echo "
 Bash script para compilar o PostgreSQL 
-no Debian Linux (12+) ou Arch Linux / Manjaro.
+no Debian Linux (12+), OpenSUSE ou Arch Linux / Manjaro.
 
 Não usar em produção!!!!
 
@@ -52,6 +52,12 @@ elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=arch" || "$(grep -E '^ID=' /et
 	flex llvm clang zlib openssl readline libxslt \
 	libxml2 m4 make autoconf pkgconf guile gcc patch \
 	python automake wget
+elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
+    sudo zypper -n install  bison \
+	flex llvm clang zlib openssl readline libxslt \
+	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
+	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
+	python311-devel automake wget systemd-devel
 else
 	echo "Esse script é para Debian ou Arch Linux e derivados!!"
 	exit
@@ -77,9 +83,9 @@ CXX=/usr/bin/g++ PYTHON=python3 ./configure \
 --with-libxml \
 --with-libxslt
 
-make world-bin
+make world
 
-sudo make install-world-bin
+sudo make install-world
 
 cd src/interfaces/libpq || return
 
