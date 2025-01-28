@@ -10,7 +10,7 @@
 
 echo "
 Bash script para compilar o PostgreSQL 
-no Debian Linux (12+), OpenSUSE ou Arch Linux / Manjaro.
+no Debian Linux (12+) e derivados, OpenSUSE ou Arch Linux / Manjaro.
 
 Não usar em produção!!!!
 
@@ -43,7 +43,7 @@ cd "${PASTA_COMPILACAO}"/ || return
 
 # Instalar os pacotes necessários para a compilação
 
-if [ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" ]; then
+if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" "$(grep -E '^ID=' /etc/os-release)" = "ID=ubuntu" ]]; then
 	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev	
@@ -52,6 +52,12 @@ elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=arch" || "$(grep -E '^ID=' /et
 	flex llvm clang zlib openssl readline libxslt \
 	libxml2 m4 make autoconf pkgconf guile gcc patch \
 	python automake wget
+elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
+    sudo zypper -n install  bison \
+	flex llvm clang zlib openssl readline libxslt \
+	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
+	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
+	python311-devel automake wget systemd-devel libicu-devel
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
