@@ -44,6 +44,8 @@ fi
 
 # Importa a chave do repositório 
 
+sudo apt install curl ca-certificates
+
 sudo install -d /usr/share/postgresql-common/pgdg
 
 sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
@@ -75,8 +77,6 @@ postgresql-server-dev-"${VERSAO}" pg-activity
 
 # Desabilitabdo e parando o serviço do postgresql
 
-sudo systemctl disable postgresql
-
-sudo systemctl stop postgresql
+sudo systemctl enable postgresql
 
 echo "Instalação finalizada!!"
