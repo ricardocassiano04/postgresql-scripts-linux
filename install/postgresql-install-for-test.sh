@@ -24,7 +24,7 @@ sleep 1
 
 
 
-read -r -p "Digite a versão que quer instalar (ex: 15.10, 16.6, 17.2)": VERSAO
+read -r -p "Digite a versão que quer instalar (ex: 15.12, 16.8, 17.4)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
@@ -43,7 +43,7 @@ cd "${PASTA_COMPILACAO}"/ || return
 
 # Instalar os pacotes necessários para a compilação
 
-if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" "$(grep -E '^ID=' /etc/os-release)" = "ID=ubuntu" ]]; then
+if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" || "$(grep -E '^ID=' /etc/os-release)" = "ID=ubuntu" ]]; then
 	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev	
@@ -58,14 +58,14 @@ elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; t
 	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
 	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
 	python311-devel automake wget systemd-devel libicu-devel
-elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
+elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
 	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
 	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
 	python311-devel automake wget systemd-devel libicu-devel
 else
-	echo "Esse script é para Debian ou Arch Linux e derivados!!"
+	echo "Esse script é para Debian, OpenSUSE ou Arch Linux e derivados!!"
 	exit
 fi
 
