@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PostgreSQL no OpenSUSE Tumbleweed.
+# Configura o repositório e instala o PostgreSQL no OpenSUSE Leap / Tumbleweed.
 # 
 #
 # Autor: Ricardo Cassiano
@@ -13,13 +13,30 @@
 echo "
  
 
-Configura o repositório e instala o PostgreSQL no OpenSUSE Tumbleweed.
+Configura o repositório e instala o PostgreSQL no OpenSUSE Leap / Tumbleweed.
 
 Adicionando o repositório:
 
 "
 
-sudo zypper addrepo http://download.opensuse.org/repositories/server:/database:/postgresql/openSUSE_Tumbleweed/ PostgreSQL
+
+
+
+if  [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
+
+	sudo zypper addrepo http://download.opensuse.org/repositories/server:/database:/postgresql/openSUSE_Tumbleweed/ PostgreSQL
+	
+	sudo zypper --gpg-auto-import-keys refresh
+
+elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
+
+	sudo zypper addrepo http://download.opensuse.org/repositories/server:/database:/postgresql/openSUSE_Tumbleweed/ PostgreSQL
+	
+	sudo zypper --gpg-auto-import-keys refresh
+else
+	echo "Você não está executando o Linux OpenSUSE!!"
+	exit
+fi
 
 
 
