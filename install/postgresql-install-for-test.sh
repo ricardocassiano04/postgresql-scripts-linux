@@ -46,24 +46,32 @@ cd "${PASTA_COMPILACAO}"/ || return
 if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" || "$(grep -E '^ID=' /etc/os-release)" = "ID=ubuntu" ]]; then
 	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev	
+	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
+	
+	PYTHON_VERSION=python3	
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=arch" || "$(grep -E '^ID=' /etc/os-release)" = "ID=manjaro" ]]; then
     sudo pacman --noconfirm --needed -S bison \
 	flex llvm clang zlib openssl readline libxslt \
 	libxml2 m4 make autoconf pkgconf guile gcc patch \
 	python automake wget
+	
+	PYTHON_VERSION=python3
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
 	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
 	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
 	python311-devel automake wget systemd-devel libicu-devel
+	
+	PYTHON_VERSION=python3.11
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
 	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
 	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
 	python311-devel automake wget systemd-devel libicu-devel
+	
+	PYTHON_VERSION=python3.11
 else
 	echo "Esse script é para Debian, OpenSUSE ou Arch Linux e derivados!!"
 	exit
@@ -80,7 +88,7 @@ cd postgresql-"$VERSAO" || return
 
 # Executa a compilação
 
-CXX=/usr/bin/g++ PYTHON=python3 ./configure \
+CXX=/usr/bin/g++ PYTHON="${PYTHON_VERSION}" ./configure \
 --prefix="${PASTA_INSTALACAO}"/"$VERSAO_PRINCIPAL" \
 --with-pgport=5454 \
 --with-python \
