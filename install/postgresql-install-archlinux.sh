@@ -21,7 +21,7 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 15.8, 16.4, 17,0)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15.12, 16.8, 17.4)": VERSAO
 
 read -r -p "Digite o caminho da instalação (exemplo: /usr/local/pgsql)": PASTA_INSTALACAO
 
