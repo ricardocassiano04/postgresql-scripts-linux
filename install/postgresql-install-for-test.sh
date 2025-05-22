@@ -59,11 +59,11 @@ elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=arch" || "$(grep -E '^ID=' /et
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
-	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
+	flex llvm-devel clang-devel zlib-ng-compat-devel libopenssl-devel readline-devel libxslt-devel \
 	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
-	python311-devel automake wget systemd-devel libicu-devel
+	python313-devel automake wget systemd-devel libicu-devel
 	
-	PYTHON_VERSION=python3.11
+	PYTHON_VERSION=python3.13
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
