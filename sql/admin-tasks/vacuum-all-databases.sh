@@ -17,7 +17,7 @@ function get_datetime() {
 
 echo "$(get_datetime) - Vacuum all database started" 2>&1 | tee -a "${LOG_FILE}"
 
-vacuumdb --all --analyze --force-index-cleanup --verbose 2>&1  | tee -a "${LOG_FILE}"
+vacuumdb --all --analyze --force-index-cleanup --verbose --jobs=4 2>&1  | tee -a "${LOG_FILE}"
 
 
 echo "$(get_datetime) - Vacuum all database finished" 2>&1 | tee -a "${LOG_FILE}"
