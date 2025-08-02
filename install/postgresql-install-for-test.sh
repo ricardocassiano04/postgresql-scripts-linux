@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Bash script para compilar o PostgreSQL 
-# no Debian Linux (12+), OpenSUSE ou Arch Linux / Manjaro.
+# no Debian Linux (12+) ou OpenSUSE.
 #
 # Não usar em produção.
 #
@@ -10,7 +10,7 @@
 
 echo "
 Bash script para compilar o PostgreSQL 
-no Debian Linux (12+) e derivados, OpenSUSE ou Arch Linux / Manjaro.
+no Debian Linux (12+) e derivados ou OpenSUSE
 
 Não usar em produção!!!!
 
@@ -46,16 +46,10 @@ cd "${PASTA_COMPILACAO}"/ || return
 if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" || "$(grep -E '^ID=' /etc/os-release)" = "ID=ubuntu" ]]; then
 	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev
+	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
+	libicu-dev
 	
 	PYTHON_VERSION=python3	
-elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=arch" || "$(grep -E '^ID=' /etc/os-release)" = "ID=manjaro" ]]; then
-    sudo pacman --noconfirm --needed -S bison \
-	flex llvm clang zlib openssl readline libxslt \
-	libxml2 m4 make autoconf pkgconf guile gcc patch \
-	python automake wget
-	
-	PYTHON_VERSION=python3
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
     sudo zypper -n install  bison \
 	flex llvm clang zlib openssl readline libxslt \
@@ -73,7 +67,7 @@ elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
 	
 	PYTHON_VERSION=python3.11
 else
-	echo "Esse script é para Debian, OpenSUSE ou Arch Linux e derivados!!"
+	echo "Esse script é para Debian 12+, Ubuntu 24.04+ ou OpenSUSE Leap / Tumbleweed!"
 	exit
 fi
 
