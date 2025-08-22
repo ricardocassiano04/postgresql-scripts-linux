@@ -11,7 +11,7 @@ from pg_inherits ;
 
 -- criar tabela e adicionar partições
 
-CREATE TABLE parted_mytable_202407 (LIKE parted_mytable_202406 INCLUDING ALL) ;
+CREATE TABLE partition_mytable_202409 (LIKE partition_mytable_202508 INCLUDING ALL) ;
 
-ALTER TABLE ONLY public.mytable ATTACH PARTITION public.parted_mytable_202407 
-FOR VALUES FROM ('2024-07-01') TO ('2024-08-01');
+ALTER TABLE ONLY public.mytable ATTACH PARTITION public.partition_mytable_202409
+FOR VALUES FROM ('2025-09-01') TO ('2024-10-01');
