@@ -31,10 +31,10 @@ elif [[ "$ID" == "ubuntu" ]]; then
 elif [[ "$ID" == "debian"  ]]; then
 	versao=${VERSION_ID%%.*}
 	
-	if (( versao == 13 || versao < 11 )); then
+	if ((  versao < 11 )); then
 		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
 		exit 0
-	elif (( versao == 12 )); then
+	elif (( versao > 10 )); then
 		distro="$VERSION_CODENAME"
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
 	fi
@@ -45,7 +45,7 @@ fi
 
 echo "
  
- Configura o repositório e instala o PgAdmin (desktop) no Debian 12 / Ubuntu e Linux Mint.
+ Configurando o repositório e instala o PgAdmin (desktop) no $ID $PRETTY_NAME .
 
 
 
