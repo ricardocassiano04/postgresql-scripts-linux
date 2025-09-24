@@ -24,7 +24,7 @@ sleep 1
 
 
 
-read -r -p "Digite a versão que quer instalar (ex: 15.13, 16.9, 17.5)": VERSAO
+read -r -p "Digite a versão que quer instalar (ex: 15.14, 16.10, 17.6)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
@@ -47,7 +47,7 @@ if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /et
 	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
 	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
-	libicu-dev
+	libicu-dev xsltproc
 	
 	PYTHON_VERSION=python3	
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
