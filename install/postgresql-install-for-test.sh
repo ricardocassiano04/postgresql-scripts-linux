@@ -24,7 +24,7 @@ sleep 1
 
 
 
-read -r -p "Digite a versão que quer instalar (ex: 15.14, 16.10, 17.6)": VERSAO
+read -r -p "Digite a versão que quer instalar (ex: 15.14, 16.10, 17.6, 18.0)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
