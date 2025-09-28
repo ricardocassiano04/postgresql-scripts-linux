@@ -57,7 +57,7 @@ https://www.postgresql.org/download/linux/debian/
 
 sleep 1
 
-read -r -p "Digite a versão que você quer instalar (ex: 15, 16, 17)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 15, 16, 17, 18)": VERSAO
 
 #  Instalar os pacotes necessários para configurar os repositótios
 
@@ -91,7 +91,8 @@ sudo apt-get install postgresql-client-"${VERSAO}"
 
 sudo apt-get -y install postgresql-"${VERSAO}" \
 postgresql-doc-"${VERSAO}" postgresql-plpython3-"${VERSAO}" \
-postgresql-server-dev-"${VERSAO}" pg-activity
+postgresql-server-dev-"${VERSAO}" pg-activity \
+postgresql-"${VERSAO}"-repack postgresql-"${VERSAO}"-pljava
 
 
 # Desabilitabdo e parando o serviço do postgresql
