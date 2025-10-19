@@ -24,7 +24,23 @@ psql -l
 
 ALTER DATABASE database_name_ RENAME TO database_name_new;
 
--- close connectios
+
+-- drop database closing current connections to it
+
+DROP DATABASE database_name WITH (FOFCE);
+
+
+-- cancel currently running query without closing connection
+
+
+select pg_cancel_backend(pid)
+from pg_stat_activity 
+where pid = <pid> ;
+
+-- foce a session disconnection
+select pg_terminate_backend(pid)
+from pg_stat_activity 
+where pid = <pid> ;
 
 
  -- view connection to database
