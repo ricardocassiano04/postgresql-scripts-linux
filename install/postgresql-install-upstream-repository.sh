@@ -19,7 +19,7 @@ Verificando se sua ditribuição é compatível com o script...
 sleep 3
 
 
-# Verificar a distruição
+# Verificar a distibuição
 
 source /etc/os-release
 
@@ -34,10 +34,10 @@ elif [[ "$ID" == "ubuntu" ]]; then
 elif [[ "$ID" == "debian"  ]]; then
 	versao=${VERSION_ID%%.*}
 	
-	if ((  versao < 11 )); then
+	if ((  versao < 12 )); then
 		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
 		exit 0
-	elif (( versao > 10 )); then
+	elif (( versao > 11 )); then
 		distro="$VERSION_CODENAME"
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
 	fi
