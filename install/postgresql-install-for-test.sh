@@ -23,6 +23,52 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
+# Verificar distro e instalar os pacotes necessários para a compilação
+
+
+source /etc/os-release
+
+
+if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
+   distro="$UBUNTU_CODENAME"
+   echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+   sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
+   lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
+   pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
+   libicu-dev xsltproc llvm-dev libclang-dev
+
+   PYTHON_VERSION=python3
+   
+elif [[ "$ID" == "opensuse-leap" ]]; then
+   distro="$VERSION_CODENAME"
+   echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+   sudo zypper -n install  bison \
+   flex llvm clang zlib openssl readline libxslt \
+   llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
+   libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
+   python313-devel automake wget systemd-devel libicu-devel
+	
+	PYTHON_VERSION=python3.13
+   
+elif [[ "$ID" == "debian"  ]]; then
+	versao=${VERSION_ID%%.*}
+	
+	if ((  versao < 11 )); then
+		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
+		exit 0
+	elif (( versao > 10 )); then
+		distro="$VERSION_CODENAME"
+		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+	    sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
+	    lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
+	    pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
+	    libicu-dev xsltproc llvm-dev libclang-dev
+
+	    PYTHON_VERSION=python3
+	fi
+fi
+
+
 
 read -r -p "Digite a versão que quer instalar (ex: 15.14, 16.10, 17.6, 18.0)": VERSAO
 
@@ -40,36 +86,6 @@ mkdir -p "${PASTA_COMPILACAO}"
 
 cd "${PASTA_COMPILACAO}"/ || return
 
-
-# Instalar os pacotes necessários para a compilação
-
-if [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=debian" || "$(grep -E '^ID=' /etc/os-release)" = "ID=linuxmint" || "$(grep -E '^ID=' /etc/os-release)" = "ID=ubuntu" ]]; then
-	sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
-	lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
-	pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
-	libicu-dev xsltproc
-	
-	PYTHON_VERSION=python3	
-elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; then
-    sudo zypper -n install  bison \
-	flex llvm clang zlib openssl readline libxslt \
-	flex llvm-devel clang-devel zlib-ng-compat-devel libopenssl-devel readline-devel libxslt-devel \
-	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
-	python313-devel automake wget systemd-devel libicu-devel
-	
-	PYTHON_VERSION=python3.13
-elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
-    sudo zypper -n install  bison \
-	flex llvm clang zlib openssl readline libxslt \
-	flex llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
-	libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
-	python311-devel automake wget systemd-devel libicu-devel
-	
-	PYTHON_VERSION=python3.11
-else
-	echo "Esse script é para Debian 12+, Ubuntu 24.04+ ou OpenSUSE Leap / Tumbleweed!"
-	exit
-fi
 
 
 # Download do código fonte
