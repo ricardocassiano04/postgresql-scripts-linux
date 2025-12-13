@@ -20,10 +20,10 @@ if [[ "$ID" != "fedora"  ]]; then
 elif [[ "$ID" == "fedora"  ]]; then
 	versao=${VERSION_ID%%.*}
 	
-	if ((  versao < 41 )); then
+	if ((  versao < 42 )); then
 		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
 		exit 0
-	elif (( versao > 40 )); then		
+	elif (( versao > 41 )); then		
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
 	fi
 fi
@@ -38,7 +38,7 @@ Configurando o repositório e instalando o PostgreSQL no Fedora Linux
 sleep 2
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 16, 17, 18)": VERSAO_POSTGRES
+read -r -p "Digite a versão que você quer instalar (ex: 17, 18)": VERSAO_POSTGRES
 
 
 echo "Comandos de configurações conforme documentação em https://www.postgresql.org/download/linux/redhat/"
