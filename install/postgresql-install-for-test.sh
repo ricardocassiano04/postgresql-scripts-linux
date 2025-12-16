@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Bash script para compilar o PostgreSQL 
-# no Debian Linux (12+) ou OpenSUSE.
+# no Debian Linux (13+) e derivados ou OpenSUSE (Leap ou Tumbleweed).
 #
 # Não usar em produção.
 #
@@ -10,7 +10,7 @@
 
 echo "
 Bash script para compilar o PostgreSQL 
-no Debian Linux (12+) e derivados ou OpenSUSE
+no Debian Linux (13+) e derivados ou OpenSUSE (Leap ou Tumbleweed).
 
 Não usar em produção!!!!
 
@@ -30,22 +30,19 @@ source /etc/os-release
 
 
 if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
-   distro="$UBUNTU_CODENAME"
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
-   sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
+   sudo apt-get install  bison flex llvm clang zlib1g-dev \
    lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
    pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
    libicu-dev xsltproc llvm-dev libclang-dev
 
    PYTHON_VERSION=python3
    
-elif [[ "$ID" == "opensuse-leap" ]]; then
-   distro="$VERSION_CODENAME"
+elif [[ "$ID" == "opensuse-leap" || "$ID" == "opensuse-tumbleweed" ]]; then
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
-   sudo zypper -n install  bison \
-   flex llvm clang zlib openssl readline libxslt \
+   sudo zypper install  bison flex \
    llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
-   libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch \
+   libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch libguile1-devel \
    python313-devel automake wget systemd-devel libicu-devel
 	
 	PYTHON_VERSION=python3.13
@@ -59,7 +56,7 @@ elif [[ "$ID" == "debian"  ]]; then
 	elif (( versao > 10 )); then
 		distro="$VERSION_CODENAME"
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
-	    sudo apt-get -y install  bison flex llvm clang zlib1g-dev \
+	    sudo apt-get install  bison flex llvm clang zlib1g-dev \
 	    lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 	    pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
 	    libicu-dev xsltproc llvm-dev libclang-dev
@@ -70,7 +67,7 @@ fi
 
 
 
-read -r -p "Digite a versão que quer instalar (ex: 15.14, 16.10, 17.6, 18.0)": VERSAO
+read -r -p "Digite a versão que quer instalar (ex: 16.11, 17.7, 18.1)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql)": PASTA_INSTALACAO
 
@@ -100,7 +97,7 @@ cd postgresql-"$VERSAO" || return
 
 CXX=/usr/bin/g++ PYTHON="${PYTHON_VERSION}" ./configure \
 --prefix="${PASTA_INSTALACAO}"/"$VERSAO_PRINCIPAL" \
---with-pgport=5454 \
+--with-pgport=5433 \
 --with-python \
 --with-openssl \
 --with-systemd \
