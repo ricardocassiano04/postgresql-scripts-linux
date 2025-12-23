@@ -34,7 +34,7 @@ if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
    sudo apt-get install  bison flex llvm clang zlib1g-dev \
    lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
    pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
-   libicu-dev xsltproc llvm-dev libclang-dev
+   libicu-dev xsltproc llvm-dev libclang-dev docbook-xml
 
    PYTHON_VERSION=python3
    
@@ -43,7 +43,7 @@ elif [[ "$ID" == "opensuse-leap" || "$ID" == "opensuse-tumbleweed" ]]; then
    sudo zypper install  bison flex \
    llvm-devel clang-devel zlib-devel libopenssl-devel readline-devel libxslt-devel \
    libxml2-devel m4 make autoconf pkgconf guile-devel gcc patch libguile1-devel \
-   python313-devel automake wget systemd-devel libicu-devel
+   python313-devel automake wget systemd-devel libicu-devel docbook-xml-website
 	
 	PYTHON_VERSION=python3.13
    
@@ -59,7 +59,7 @@ elif [[ "$ID" == "debian"  ]]; then
 	    sudo apt-get install  bison flex llvm clang zlib1g-dev \
 	    lib{ssl,systemd,readline,xslt1,xml2}-dev m4 make autoconf \
 	    pkgconf flex gcc make guile-3.0-dev patch automake  python3-dev \
-	    libicu-dev xsltproc llvm-dev libclang-dev
+	    libicu-dev xsltproc llvm-dev libclang-dev docbook-xml
 
 	    PYTHON_VERSION=python3
 	fi
@@ -104,9 +104,9 @@ CXX=/usr/bin/g++ PYTHON="${PYTHON_VERSION}" ./configure \
 --with-libxml \
 --with-libxslt
 
-make world
+make 
 
-sudo make install-world
+sudo make install
 
 cd src/interfaces/libpq || return
 
