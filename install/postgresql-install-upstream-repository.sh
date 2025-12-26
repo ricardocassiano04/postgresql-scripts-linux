@@ -92,7 +92,7 @@ sudo apt-get install postgresql-client-"${VERSAO}"
 sudo apt-get -y install postgresql-"${VERSAO}" \
 postgresql-doc-"${VERSAO}" postgresql-plpython3-"${VERSAO}" \
 postgresql-server-dev-"${VERSAO}" pg-activity \
-postgresql-"${VERSAO}"-repack postgresql-"${VERSAO}"-pljava
+postgresql-"${VERSAO}"-repack 
 
 
 # Desabilitabdo e parando o serviço do postgresql
