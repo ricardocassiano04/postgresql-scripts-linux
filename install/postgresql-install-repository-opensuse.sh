@@ -30,7 +30,7 @@ if  [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-tumbleweed\"" ]]; th
 
 elif [[ "$(grep -E '^ID=' /etc/os-release)" = "ID=\"opensuse-leap\"" ]]; then
 
-	sudo zypper addrepo http://download.opensuse.org/repositories/server:/database:/postgresql/15.6/ PostgreSQL
+	sudo zypper addrepo http://download.opensuse.org/repositories/server:/database:/postgresql/16.0/ PostgreSQL
 	
 	sudo zypper --gpg-auto-import-keys refresh
 else
@@ -52,7 +52,7 @@ read -r -p "Digite a versão que você quer instalar (ex: 15, 17)": VERSAO
 sudo zypper refresh
 
 sudo zypper -n install postgresql"${VERSAO}" \
-postgresql"${VERSAO}"-{contrib,docs,server}
+postgresql"${VERSAO}"-{contrib,docs,server,pg_repack,plpython}
 
 
 # Define a versão escolhida pelo usuário como a padrão
