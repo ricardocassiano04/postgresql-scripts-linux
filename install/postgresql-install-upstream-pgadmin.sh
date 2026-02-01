@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PgAdmin (desktop) no Debian 12 / Ubuntu e Linux Mint.
+# Configura o repositório e instala o PgAdmin (desktop) no Debian 12+ / Ubuntu 24.04 e Linux Mint 22.x.
 # 
 #
 # Autor: Ricardo Cassiano
@@ -20,13 +20,13 @@ sleep 1
 
 source /etc/os-release
 
-if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
-   distro="$UBUNTU_CODENAME"
+if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then   
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+   sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/noble pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
    
-elif [[ "$ID" == "ubuntu" ]]; then
-   distro="$VERSION_CODENAME"
+elif [[ "$ID" == "ubuntu" ]]; then   
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+   sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
    
 elif [[ "$ID" == "debian"  ]]; then
 	versao=${VERSION_ID%%.*}
@@ -35,7 +35,7 @@ elif [[ "$ID" == "debian"  ]]; then
 		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
 		exit 0
 	elif (( versao > 10 )); then
-		distro="$VERSION_CODENAME"
+		sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
 	fi
 fi
@@ -65,10 +65,6 @@ sudo apt-get -y install curl lsb-release ca-certificates
 # Importa a chave do repositório 
 
 curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
-
-# Adicionar repositórios
-
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/${distro} pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
 
 
 # Atualiza repositórios e instala os pacotes
