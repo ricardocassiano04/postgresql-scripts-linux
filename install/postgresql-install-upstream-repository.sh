@@ -47,7 +47,7 @@ fi
 
 echo "
  
- Configura o repositório e instala o PostgreSQL no Debian 11+,  Ubuntu / Linux Mint.
+ Configura o repositório e instala o PostgreSQL no Debian 12+,  Ubuntu 22.04+ / Linux Mint 21+.
 
 
 https://www.postgresql.org/download/linux/debian/
@@ -98,5 +98,7 @@ postgresql-"${VERSAO}"-repack
 # Desabilitabdo e parando o serviço do postgresql
 
 sudo systemctl disable postgresql
+
+echo "Serviço do postgres desabilitado. Caso queira habilitar, execute sudo systemctl enable postgresql!!"
 
 echo "Instalação finalizada!!"
