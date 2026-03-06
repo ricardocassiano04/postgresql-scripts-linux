@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PostgreSQL no Debian 11+,  Ubuntu / Linux Mint.
+# Configura o repositório e instala o PostgreSQL no Debian 12+,  Ubuntu 22.04+ / Linux Mint 21+.
 # 
 #
 # Autor: Ricardo Cassiano
