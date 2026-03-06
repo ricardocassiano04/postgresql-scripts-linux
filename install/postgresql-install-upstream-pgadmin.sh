@@ -20,27 +20,26 @@ sleep 1
 
 source /etc/os-release
 
-if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then   
+
+if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
+   distro="$UBUNTU_CODENAME"
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
-   sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/noble pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
    
-elif [[ "$ID" == "ubuntu" ]]; then   
+elif [[ "$ID" == "ubuntu" ]]; then
+   distro="$VERSION_CODENAME"
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
-   sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
    
 elif [[ "$ID" == "debian"  ]]; then
 	versao=${VERSION_ID%%.*}
 	
-	if ((  versao < 11 )); then
+	if ((  versao < 12 )); then
 		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
 		exit 0
-	elif (( versao > 10 )); then
-		sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+	elif (( versao > 11 )); then
+		distro="$VERSION_CODENAME"
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
 	fi
 fi
-
-
 
 
 echo "
@@ -65,6 +64,18 @@ sudo apt-get -y install curl lsb-release ca-certificates
 # Importa a chave do repositório 
 
 curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+
+
+# Adicionar repositórios
+
+sudo rm -f /etc/apt/sources.list.d/pgadmin.list
+
+sudo tee -a /etc/apt/sources.list.d/pgadmin.list>>/dev/null<<EOF
+
+deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/"${distro}" pgadmin4 main
+
+EOF
+
 
 
 # Atualiza repositórios e instala os pacotes
