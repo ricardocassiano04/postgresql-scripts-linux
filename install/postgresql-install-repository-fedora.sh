@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PostgreSQL no Fedora Linux
+# Configura o repositório e instala o PostgreSQL e o PgAdmin 4 no Fedora Linux
 # 
 #
 # Autor: Ricardo Cassiano
 #
 # Referência: https://www.postgresql.org/download/linux/redhat/
-#
+# e https://www.pgadmin.org/download/pgadmin-4-rpm/
 #
 
 # Verificar a distribuição
@@ -50,6 +50,10 @@ sudo dnf install -y postgresql"${VERSAO_POSTGRES}"-server
 sudo /usr/pgsql-"${VERSAO_POSTGRES}"/bin/postgresql-"${VERSAO_POSTGRES}"-setup initdb
 sudo systemctl enable postgresql-"${VERSAO_POSTGRES}"
 sudo systemctl start postgresql-"${VERSAO_POSTGRES}"
+
+sudo rpm -i https://ftp.postgresql.org/pub/pgadmin/pgadmin4/yum/pgadmin4-fedora-repo-2-1.noarch.rpm
+
+sudo yum install pgadmin4-desktop
 
 
 echo "Instalação finalizada!!"
