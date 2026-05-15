@@ -67,7 +67,7 @@ fi
 
 
 
-read -r -p "Digite a versão que quer instalar (ex: 16.3, 17.9, 18.3)": VERSAO
+read -r -p "Digite a versão que quer instalar (16.4, 17.10, 18.4)": VERSAO
 
 read -r -p "Digite a pasta onde quer instalar (ex: /opt/pgsql/app)": PASTA_INSTALACAO
 
