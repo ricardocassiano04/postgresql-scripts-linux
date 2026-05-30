@@ -20,10 +20,10 @@ if [[ "$ID" != "fedora"  ]]; then
 elif [[ "$ID" == "fedora"  ]]; then
 	versao=${VERSION_ID%%.*}
 	
-	if ((  versao < 42 )); then
+	if ((  versao < 43 )); then
 		echo "Sua distro $PRETTY_NAME não é suportada por este script. Saindo..."
 		exit 0
-	elif (( versao > 41 )); then		
+	elif (( versao > 42 )); then
 		echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
 	fi
 fi
