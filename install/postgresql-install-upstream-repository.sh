@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PostgreSQL no Debian 12+,  Ubuntu 22.04+ / Linux Mint 21+.
+# Configura o repositório e instala o PostgreSQL no Debian 12+,  Ubuntu 22.04+
 # 
 #
 # Autor: Ricardo Cassiano
@@ -22,13 +22,13 @@ sleep 3
 # Verificar a distibuição
 
 source /etc/os-release
-
-if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
-   distro="$UBUNTU_CODENAME"
-   echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
    
-elif [[ "$ID" == "ubuntu" ]]; then
+if [[ "$ID" == "ubuntu" ]]; then
    distro="$VERSION_CODENAME"
+   echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+
+elif [[ "$ID" == "linuxmint" ]]; then
+   distro="$UBUNTU_CODENAME"
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
    
 elif [[ "$ID" == "debian"  ]]; then

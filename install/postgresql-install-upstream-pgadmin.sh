@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Configura o repositório e instala o PgAdmin (desktop) no Debian 12+ / Ubuntu 24.04 e Linux Mint 22.x.
+# Configura o repositório e instala o PgAdmin (desktop) no Debian 12+ / Ubuntu 24.04
 # 
 #
 # Autor: Ricardo Cassiano
@@ -21,12 +21,12 @@ sleep 1
 source /etc/os-release
 
 
-if [[ "$ID" == "linuxmint" || "$ID" == "ubuntu" ]]; then
-   distro="$UBUNTU_CODENAME"
-   echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
-   
-elif [[ "$ID" == "ubuntu" ]]; then
+if [[ "$ID" == "ubuntu" ]]; then
    distro="$VERSION_CODENAME"
+   echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
+
+elif [[ "$ID" == "linuxmint" ]]; then
+   distro="$UBUNTU_CODENAME"
    echo "Sua distro $PRETTY_NAME é suportada. Iniciando a instalação..."
    
 elif [[ "$ID" == "debian"  ]]; then
