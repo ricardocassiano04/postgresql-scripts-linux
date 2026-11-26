@@ -57,7 +57,7 @@ https://www.postgresql.org/download/linux/debian/
 
 sleep 1
 
-read -r -p "Digite a versão que você quer instalar (ex: 15, 16, 17, 18)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 16, 17, 18, 19)": VERSAO
 
 #  Instalar os pacotes necessários para configurar os repositótios
 
