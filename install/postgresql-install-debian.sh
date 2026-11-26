@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Script bash para compilar e instalar o PostgreSQL 
-# no Linux Debian (12+) / Ubuntu (22.04+).
+# no Linux Debian (13+) / Ubuntu (24.04+).
 #
 #
 # Autor: Ricardo Cassiano
@@ -10,7 +10,7 @@
 echo "
 Script bash para compilar e instalar o PostgreSQL 
 
-no Linux Debian (12+) / Ubuntu (22.04+).
+no Linux Debian (13+) / Ubuntu (24.04+).
 
 Adaptado da documentação oficial:
 
@@ -21,7 +21,7 @@ https://www.postgresql.org/docs/current/installation.html
 sleep 1
 
 
-read -r -p "Digite a versão que você quer instalar (17.10, 18.4)": VERSAO
+read -r -p "Digite a versão que você quer instalar (18.7, 19.0)": VERSAO
 
 read -r -p "Digite o caminho da instalação (exemplo: /opt/pgsql)": PASTA_INSTALACAO
 
