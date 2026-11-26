@@ -44,7 +44,7 @@ sleep 2
 
 
 
-read -r -p "Digite a versão que você quer instalar (ex: 16, 17, 18)": VERSAO
+read -r -p "Digite a versão que você quer instalar (ex: 17, 18, 19)": VERSAO
 
 
 # Atualiza repositórios e instala os pacotes
