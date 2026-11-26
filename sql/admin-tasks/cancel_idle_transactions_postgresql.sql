@@ -28,10 +28,10 @@ where
   and application_name <> 'psql'
   and datname <> 'postgres'
   and state_change <= now() - interval '15min';
-  
+
 
 -- kill a especifi pid
- 
+
 SELECT pg_cancel_backend(pid);
 
 select pg_terminate_backend(pid); -- force

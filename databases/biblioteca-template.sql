@@ -10,19 +10,19 @@ Em desenvolvimento
 
 
 
-CREATE DATABASE biblioteca ;
+create database biblioteca ;
 
 \c biblioteca
 
 
-CREATE TABLE situacao (
+create table situacao (
     id int not null primary key,
     descricao text
 ) ;
 
 
-INSERT INTO situacao (id, descricao)
-VALUES (0, 'EXCLUIDO'), (1, 'ATIVO') ;
+insert into situacao (id, descricao)
+values (0, 'EXCLUIDO'), (1, 'ATIVO') ;
 
 
 create table pais (
